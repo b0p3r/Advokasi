@@ -2,6 +2,7 @@
 	<hgroup>
 		<ul id="header_nav_left">
 
+            <li><a class="logo-ajiindo" href="http://www.ajiindonesia.or.id/" target="_blank">AJI Indonesia</a></li>
 			<li><span class="bignext">&raquo;</span><a href="<?php echo url::site();?>"><?php echo $site_name; ?></a></li>
 			<?php
 			// Action::header_nav - Add items to header nav area
