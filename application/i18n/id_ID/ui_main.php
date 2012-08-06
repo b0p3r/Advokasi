@@ -316,7 +316,7 @@
 	'no_reports' => 'Tidak ada laporan',
 	'no_results' => 'Tidak ada hasil',
 	'off' => 'Mati',
-	'official_news' => 'Berita utama &amp; resmi ',
+	'official_news' => 'Berita Utama &amp; Berita Resmi ',
 	'on' => 'Hidup',
 	'option' => 'Pilihan',
 	'optional' => 'Optional',
