@@ -1,17 +1,13 @@
-Theme Name: Unicorn
-Description: Map is front-and center with a simplified home page. Please note, this plugin requ
-Demo: http://www.ushahidi.com
-Version: 1.1
-Author: Caleb Bell
-Author Email: caleb@ushahidi.com
-
+Theme Name: Advokasi
+Description: Untuk advokasi.ajiindonesia.or.id
+Demo: http://advokasi.ajiindonesia.or.id
+Version: 0.1
+Author: Iyan Kushardiansah
+Author Email: iyank4@yahoo.com
+Based On: Unicorn v1.0 by Caleb Bell (caleb@ushahidi.com)
 
 ===CHANGELOG===
 
-Unicorn v1.1, 09-19-2011
+Unicorn v0.1, 01-08-2012
 ---------------------------------
-* added "How to Report" toggle section to map on home page.
-
-Unicorn v1.0, 09-16-2011
----------------------------------
-* version one released
+* imported from unicorn
