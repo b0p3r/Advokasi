@@ -314,6 +314,9 @@ class Reports_Controller extends Main_Controller {
 		{
 			// Instantiate Validation, use $post, so we don't overwrite $_POST fields with our own things
 			$post = array_merge($_POST, $_FILES);
+			
+			// Adding event for endtime plugin to hook into
+			Event::run('ushahidi_action.report_posted_frontend', $post);
 
 			// Test to see if things passed the rule checks
 			if (reports::validate($post))
@@ -342,7 +345,7 @@ class Reports_Controller extends Main_Controller {
 				// STEP 6: SAVE PERSONAL INFORMATION
 				reports::save_personal_info($post, $incident);
 
-				// Run evnets
+				// Run events
 				Event::run('ushahidi_action.report_submit', $post);
 				Event::run('ushahidi_action.report_add', $incident);
 
@@ -370,9 +373,9 @@ class Reports_Controller extends Main_Controller {
 		$this->template->content->form = $form;
 		$this->template->content->errors = $errors;
 		$this->template->content->form_error = $form_error;
-
-		$categories = $this->get_categories($form['incident_category']);
-		$this->template->content->categories = $categories;
+		
+		 // Populate this for backwards compat
+		$this->template->content->categories = array();
 
 		// Pass timezone
 		$this->template->content->site_timezone = Kohana::config('settings.site_timezone');
@@ -994,16 +997,16 @@ class Reports_Controller extends Main_Controller {
 
 	/**
 	 * Ajax call to update Incident Reporting Form
-    */
-    public function switch_form()
-    {
-        $this->template = "";
-        $this->auto_render = FALSE;
-        isset($_POST['form_id']) ? $form_id = $_POST['form_id'] : $form_id = "1";
-        isset($_POST['incident_id']) ? $incident_id = $_POST['incident_id'] : $incident_id = "";
-
+	 */
+	public function switch_form()
+	{
+		$this->template = "";
+		$this->auto_render = FALSE;
+		isset($_POST['form_id']) ? $form_id = $_POST['form_id'] : $form_id = "1";
+		isset($_POST['incident_id']) ? $incident_id = $_POST['incident_id'] : $incident_id = "";
+		
 		$form_fields = customforms::switcheroo($incident_id,$form_id);
-        echo json_encode(array("status"=>"success", "response"=>$form_fields));
-    }
+		echo json_encode(array("status"=>"success", "response"=>$form_fields));
+	}
 
 }

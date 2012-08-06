@@ -142,6 +142,7 @@ class Settings_Model extends ORM {
 		
 		// List of value to skip
 		$skip = array('api_live');
+		$value_expr = new Database_Expression("WHEN :key THEN :value ");
 		foreach ($settings as $key => $value)
 		{
 			// If an item has been marked for skipping or is a 
@@ -155,18 +156,18 @@ class Settings_Model extends ORM {
 				$value = NULL;
 			}
 			
+			$value_expr->param(':key', $key);
+			$value_expr->param(':value', $value);
 
-			$keys[] = Database::instance()->escape($key);
-			$values[] = sprintf("WHEN %s THEN %s ", Database::instance()->escape($key), Database::instance()->escape($value));
+			$keys[] = $key;
+			$values[] = $value_expr->compile();
 		}
 		
 		// Construct the final query
-		$query .= implode(" ", $values)."END WHERE `key` IN (%s)";
-		$query = sprintf($query, implode(",", $keys));
-		
+		$query .= implode(" ", $values)."END WHERE `key` IN :keys";
 
 		// Performa batch update
-		Database::instance()->query($query);
+		Database::instance()->query($query, array(':keys' => $keys));
 	}
 
 

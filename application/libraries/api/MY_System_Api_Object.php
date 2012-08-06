@@ -55,7 +55,7 @@ class System_Api_Object extends Api_Object_Core {
         
         $ret_json_or_xml = ''; // Will hold the JSON/XML string to return
 
-        if ($this->response_type == 'json')
+        if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
         {
             $json_version[] = array(
 									"version" => $version,
@@ -80,6 +80,12 @@ class System_Api_Object extends Api_Object_Core {
 		foreach($plugins as $plugin){
 			$active_plugins[] = $plugin->plugin_name;
 		}
+		
+		$features = array(
+			'admin_reports_v2' => TRUE,
+			'api_key' => FALSE,
+		);
+		
 
         // Create the json array
         $data = array(
@@ -89,12 +95,13 @@ class System_Api_Object extends Api_Object_Core {
                 "checkins" => Kohana::config('settings.checkins'),
                 "email" => Kohana::config('settings.site_email'),
                 "sms" => Kohana::config('settings.sms_no1'),
-                "plugins" => $active_plugins
+                "plugins" => $active_plugins,
+                "features" => $features,
                 ),
             "error" => $this->api_service->get_error_msg(0)
         );
 
-        if ($this->response_type == 'json')
+        if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
         {
             $ret_json_or_xml = $this->array_as_json($data);
         }
@@ -132,7 +139,7 @@ class System_Api_Object extends Api_Object_Core {
             "error" => $this->api_service->get_error_msg(0)
         );
 
-        if ($this->response_type == 'json')
+        if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
         {
             $ret_json_or_xml = $this->array_as_json($data);
         }
@@ -170,7 +177,7 @@ class System_Api_Object extends Api_Object_Core {
             "error" => $this->api_service->get_error_msg(0)
         );
 
-        if ($this->response_type == 'json')
+        if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
         {
             $ret_json_or_xml = $this->array_as_json($data);
         }

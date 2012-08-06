@@ -22,19 +22,19 @@ class Incidents_Api_Object extends Api_Object_Core {
 	 * Record sorting order ASC or DESC
 	 * @var string
 	 */
-	private $sort;
+	protected $sort;
 
 	/**
 	 * Column name by which to order the records
 	 * @var string
 	 */
-	private $order_field;
+	protected $order_field;
 
 	/**
 	 * Should the response include comments
 	 * @var string
 	 */
-	private $comments;
+	protected $comments;
 
 	/**
 	 * Constructor
@@ -287,7 +287,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 	 * Checks for optional parameters in the request and sets the values
 	 * in the respective class members
 	 */
-	private function _check_optional_parameters()
+	protected function _check_optional_parameters()
 	{
 		// Check if the sort parameter has been specified
 		if ($this->api_service->verify_array_index($this->request, 'sort'))
@@ -348,7 +348,6 @@ class Incidents_Api_Object extends Api_Object_Core {
 	 * Generic function to get reports by given set of parameters
 	 *
 	 * @param string $where SQL where clause
-	 * @param int $limit No. of records to return - set to 20 by default
 	 * @return string XML or JSON string
 	 */
 	public function _get_incidents($where = array())
@@ -521,7 +520,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 			{
 				foreach ($category_items[$item->incident_id] as $category_item)
 				{
-					if ($this->response_type == 'json')
+					if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 					{
 						$json_report_categories[$item->incident_id][] = array(
 							"category"=> array(
@@ -552,7 +551,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 			{
 				foreach ($comment_items[$item->incident_id] as $comment_item)
 				{
-					if ($this->response_type == 'json')
+					if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 					{
 						$json_report_comments[$item->incident_id][] = array(
 							"comment"=> $comment_item
@@ -599,7 +598,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 							$url_prefix = '';
 						}
 
-						if($this->response_type == 'json')
+						if($this->response_type == 'json' OR $this->response_type == 'jsonp')
 						{
 							$json_report_media[$item->incident_id][] = array(
 								"id" => $media_item['mediaid'],
@@ -667,7 +666,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 			$xml->endElement(); // End incident
 
 			// Check for response type
-			if ($this->response_type == 'json')
+			if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 			{
 				$json_reports[] = array(
 					"incident" => array(
@@ -699,7 +698,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 			"error" => $this->api_service->get_error_msg(0)
 		);
 
-		if ($this->response_type == 'json')
+		if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 		{
 			return $this->array_as_json($data);
 
@@ -756,7 +755,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 		);
 
 		// Return data
-		$this->response_data =  ($this->response_type == 'json')
+		$this->response_data =  ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 			? $this->array_as_json($data)
 			: $this->array_as_xml($data, $replar);
 
@@ -834,7 +833,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 			break;
 		}
 
-		if ($this->response_type == 'json')
+		if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 		{
 			$json_count[] = array("count" => $count);
 		}
@@ -853,7 +852,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 			"error" => $this->api_service->get_error_msg(0)
 		);
 
-		$this->response_data = ($this->response_type == 'json')
+		$this->response_data = ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 			? $this->array_as_json($data)
 			: $this->array_as_xml($data, $this->replar);
 	}
@@ -882,7 +881,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 			break;
 		}
 
-		if ($this->response_type == 'json')
+		if ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 		{
 			$json_latlon[] = array(
 				"latitude" => $latitude,
@@ -909,7 +908,7 @@ class Incidents_Api_Object extends Api_Object_Core {
 		);
 
 		// Return data
-		$this->response_data =  ($this->response_type == 'json')
+		$this->response_data =  ($this->response_type == 'json' OR $this->response_type == 'jsonp')
 			? $this->array_as_json($data)
 			: $this->array_as_xml($data, $replar);
 	}

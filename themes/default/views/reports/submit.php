@@ -104,6 +104,10 @@
 					<div style="clear:both; display:block;" id="incident_date_time"></div>
 				</div>
 				<div class="report_row">
+					<!-- Adding event for endtime plugin to hook into -->
+				<?php Event::run('ushahidi_action.report_form_frontend_after_time'); ?>
+				</div>
+				<div class="report_row">
 					<h4><?php echo Kohana::lang('ui_main.reports_categories'); ?> <span class="required">*</span></h4>
 					<div class="report_category" id="categories">
 					<?php
@@ -111,7 +115,8 @@
 							? $selected_categories = $form['incident_category']
 							: array();
 							
-						echo category::tree($categories, TRUE, $selected_categories, 'incident_category', 2);
+						
+						echo category::form_tree('incident_category', $selected_categories, 2);
 						?>
 					</div>
 				</div>
